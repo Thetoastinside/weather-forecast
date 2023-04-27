@@ -30,3 +30,40 @@ async function getForecastData(city) {
     
     return data.list;
   }
+
+  // update weather
+function updateCurrentWeather(data) {
+    cityName.textContent = data.name;
+    date.textContent = new Date().toLocaleDateString();
+    temperature.textContent = `${Math.round(data.main.temp)}°C`;
+    humidity.textContent = `Humidity: ${data.main.humidity}%`;
+    windSpeed.textContent = `Wind Speed: ${data.wind.speed} km/h`;
+    
+    const iconCode = data.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+    weatherIcon.innerHTML = `<img src="${iconUrl}" alt="${data.weather[0].description}">`;
+  }
+
+  // update forecast
+function updateForecast(data) {
+    let forecastIndex = 0;
+    for (let i = 0; i < data.length; i++) {
+      const forecastDate = new Date(data[i].dt_txt);
+      if (forecastDate.getHours() === 12) {
+        const forecastCard = forecastCards[forecastIndex];
+        const forecastIcon = forecastCard.querySelector(".forecast-icon");
+        const forecastDateEl = forecastCard.querySelector(".forecast-date");
+        const forecastTemp = forecastCard.querySelector(".forecast-temp");
+        const forecastHumidity = forecastCard.querySelector(".forecast-humidity");
+        
+        forecastIcon.innerHTML = `<img src="https://openweathermap.org/img/wn/${data[i].weather[0].icon}.png" alt="${data[i].weather[0].description}">`;
+        forecastDateEl.textContent = forecastDate.toLocaleDateString();
+        forecastTemp.textContent = `${Math.round(data[i].main.temp)}°C`;
+        forecastHumidity.textContent = `Humidity: ${data[i].main.humidity}%`;
+        
+        forecastIndex++;
+      }
+    }
+  }
+
+  
