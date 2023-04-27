@@ -6,13 +6,12 @@ const date = document.querySelector("#date");
 const weatherIcon = document.querySelector("#weather-icon");
 const temperature = document.querySelector("#temperature");
 const humidity = document.querySelector("#humidity");
-const windSpeed = document.querySelector("#wind-speed");
 const forecastCards = document.querySelectorAll(".forecast-card");
 
 // get city weather
 async function getWeatherData(city) {
     const apiKey = "4b82206812c40b239f6c2ba98569a5ec";
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
     
     const response = await fetch(apiUrl);
     const data = await response.json();
@@ -23,7 +22,7 @@ async function getWeatherData(city) {
   // get forecast
 async function getForecastData(city) {
     const apiKey = "4b82206812c40b239f6c2ba98569a5ec";
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=imperial`;
     
     const response = await fetch(apiUrl);
     const data = await response.json();
@@ -35,9 +34,8 @@ async function getForecastData(city) {
 function updateCurrentWeather(data) {
     cityName.textContent = data.name;
     date.textContent = new Date().toLocaleDateString();
-    temperature.textContent = `${Math.round(data.main.temp)}°C`;
+    temperature.textContent = `${Math.round(data.main.temp)}°F`;
     humidity.textContent = `Humidity: ${data.main.humidity}%`;
-    windSpeed.textContent = `Wind Speed: ${data.wind.speed} km/h`;
     
     const iconCode = data.weather[0].icon;
     const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
