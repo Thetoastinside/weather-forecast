@@ -66,4 +66,22 @@ function updateForecast(data) {
     }
   }
 
+// form submission
+async function handleFormSubmit(event) {
+    event.preventDefault();
+    
+    const city = cityInput.value.trim();
+    if (!city) {
+      return;
+    } 
+     // current weather
+  const currentData = await getWeatherData(city);
+  updateCurrentWeather(currentData);
   
+  // forecast data
+  const forecastData = await getForecastData(city);
+  updateForecast(forecastData);
+}
+
+// event listener 
+searchForm.addEventListener("submit", handleFormSubmit);
